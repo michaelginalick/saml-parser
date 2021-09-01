@@ -51,14 +51,15 @@ class FetchXml
       })
 
     if response.code.to_i != SUCCESS_RESPONSE
-      return errors << ErrorMessages::MESSAGE_MAPPINGS[:unsuccessful_response_code]
+      handle_error(ErrorMessages::MESSAGE_MAPPINGS[:unsuccessful_response_code], response.message)
+      return errors
     end
 
     response.body
-  rescue Net::OpenTimeout, Net::ReadTimeout => _e
-    errors << ErrorMessages::MESSAGE_MAPPINGS[:http_timeout]
+  rescue Net::OpenTimeout, Net::ReadTimeout => e
+    handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_timeout], error: e.message)
   rescue URI::InvalidURIError, SsrfFilter::InvalidUriScheme, SsrfFilter::PrivateIPAddress => _e
-    errors << ErrorMessages::MESSAGE_MAPPINGS[:http_error]
+    handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_error], error: e.message)
   end
 
   # Handles a request
@@ -72,5 +73,10 @@ class FetchXml
       return
     end
     response_xml.remove_namespaces!
+  end
+
+
+  def handle_error(user_message, error)
+    errors << { user_message: user_message, error: error }
   end
 end
