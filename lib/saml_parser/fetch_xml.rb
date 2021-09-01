@@ -75,7 +75,7 @@ class FetchXml
     response_xml = Nokogiri::XML(xml)
 
     unless response_xml.errors.empty?
-      errors << ErrorMessages::MESSAGE_MAPPINGS[:invalid_xml]
+      handle_error(ErrorMessages::MESSAGE_MAPPINGS[:invalid_xml], response_xml.errors)
       return
     end
     response_xml.remove_namespaces!
