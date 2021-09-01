@@ -81,7 +81,9 @@ class FetchXml
     response_xml.remove_namespaces!
   end
 
-
+  # Holds the possible errors
+  # @param String, String
+  # @return [Array<Hash{Symbol, String}>] on error. Hash keys :user_message, :error
   def handle_error(user_message, error)
     errors << { user_message: user_message, error: error }
   end

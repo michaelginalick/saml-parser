@@ -10,7 +10,8 @@ class SamlParse
   #
   # @param format [String] a metadata url
   # @param format [Hash] key :digest_algorithm. Optional agr. Defaults to SHA256
-  # @return [XmlParser Object].
+  # @return [XmlParser Object]
+  # @return [Array<Hash{Symbol, String}>] on error. Hash keys :user_message, :error
   def self.parse(metadata_url, options = {})
     xml_document_object = FetchXml.new(metadata_url).fetch
 
