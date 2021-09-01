@@ -10,18 +10,19 @@ class SamlParse
   #
   # @param format [String] a metadata url
   # @param format [Hash] key :digest_algorithm. Optional agr. Defaults to SHA256
-  # @return [XmlParser Object].
+  # @return [XmlParser Object]
+  # @return [Array<Hash{Symbol, String}>] on error. Hash keys :user_message, :error
   def self.parse(metadata_url, options = {})
     xml_document_object = FetchXml.new(metadata_url).fetch
 
     if xml_document_object.ok?
       parsed_saml_object = XmlParser.new(xml_document_object.document, options).parse
     else
-      return xml_document_object.errors.join(', ')
+      return xml_document_object.errors
     end
 
     parsed_saml_object
     rescue DigestNotSupported => _e
-      "#{ErrorMessages::MESSAGE_MAPPINGS[:digest_not_supported]} #{XmlParser::SUPPORTED_DIGESTS.join(', ')}"
+      { user_message: ErrorMessages::MESSAGE_MAPPINGS[:digest_not_supported],  error: XmlParser::SUPPORTED_DIGESTS.join(', ') }
   end
 end

@@ -20,7 +20,7 @@ class FetchXml
 
   def initialize(metadata_url)
     @metadata_url = metadata_url
-    @errors = []
+    @errors = [{}]
   end
 
   # @return [FetchXml Object]
@@ -34,7 +34,7 @@ class FetchXml
   # Used to check if the instance generated any errors.
   # @return [Boolean]
   def ok?
-    errors.empty?
+    errors.all?(&:empty?)
   end
 
   private
@@ -51,14 +51,21 @@ class FetchXml
       })
 
     if response.code.to_i != SUCCESS_RESPONSE
-      return errors << ErrorMessages::MESSAGE_MAPPINGS[:unsuccessful_response_code]
+      handle_error(ErrorMessages::MESSAGE_MAPPINGS[:unsuccessful_response_code], response.message)
+      return errors
     end
 
     response.body
-  rescue Net::OpenTimeout, Net::ReadTimeout => _e
-    errors << ErrorMessages::MESSAGE_MAPPINGS[:http_timeout]
-  rescue URI::InvalidURIError, SsrfFilter::InvalidUriScheme, SsrfFilter::PrivateIPAddress => _e
-    errors << ErrorMessages::MESSAGE_MAPPINGS[:http_error]
+  rescue Net::OpenTimeout, Net::ReadTimeout => e
+    handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_timeout], error: e.message)
+  rescue URI::InvalidURIError,
+         SsrfFilter::InvalidUriScheme,
+         SsrfFilter::PrivateIPAddress,
+         SsrfFilter::Error,
+         SsrfFilter::UnresolvedHostname,
+         SsrfFilter::TooManyRedirects,
+         SsrfFilter::CRLFInjection => e
+    handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_error], error: e.message)
   end
 
   # Handles a request
@@ -68,9 +75,16 @@ class FetchXml
     response_xml = Nokogiri::XML(xml)
 
     unless response_xml.errors.empty?
-      errors << ErrorMessages::MESSAGE_MAPPINGS[:invalid_xml]
+      handle_error(ErrorMessages::MESSAGE_MAPPINGS[:invalid_xml], response_xml.errors)
       return
     end
     response_xml.remove_namespaces!
+  end
+
+  # Holds the possible errors
+  # @param String, String
+  # @return [Array<Hash{Symbol, String}>] on error. Hash keys :user_message, :error
+  def handle_error(user_message, error)
+    errors << { user_message: user_message, error: error }
   end
 end
