@@ -20,7 +20,7 @@ class FetchXml
 
   def initialize(metadata_url)
     @metadata_url = metadata_url
-    @errors = []
+    @errors = [{}]
   end
 
   # @return [FetchXml Object]
@@ -34,7 +34,7 @@ class FetchXml
   # Used to check if the instance generated any errors.
   # @return [Boolean]
   def ok?
-    errors.empty?
+    errors.all?(&:empty?)
   end
 
   private
