@@ -58,7 +58,13 @@ class FetchXml
     response.body
   rescue Net::OpenTimeout, Net::ReadTimeout => e
     handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_timeout], error: e.message)
-  rescue URI::InvalidURIError, SsrfFilter::InvalidUriScheme, SsrfFilter::PrivateIPAddress => _e
+  rescue URI::InvalidURIError,
+         SsrfFilter::InvalidUriScheme,
+         SsrfFilter::PrivateIPAddress,
+         SsrfFilter::Error,
+         SsrfFilter::UnresolvedHostname,
+         SsrfFilter::TooManyRedirects,
+         SsrfFilter::CRLFInjection => e
     handle_error(ErrorMessages::MESSAGE_MAPPINGS[:http_error], error: e.message)
   end
 
