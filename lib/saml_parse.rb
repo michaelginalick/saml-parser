@@ -17,7 +17,7 @@ class SamlParse
     if xml_document_object.ok?
       parsed_saml_object = XmlParser.new(xml_document_object.document, options).parse
     else
-      return xml_document_object.errors.join(', ')
+      return xml_document_object.errors
     end
 
     parsed_saml_object
