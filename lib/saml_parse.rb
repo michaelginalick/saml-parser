@@ -22,6 +22,6 @@ class SamlParse
 
     parsed_saml_object
     rescue DigestNotSupported => _e
-      "#{ErrorMessages::MESSAGE_MAPPINGS[:digest_not_supported]} #{XmlParser::SUPPORTED_DIGESTS.join(', ')}"
+      { user_message: ErrorMessages::MESSAGE_MAPPINGS[:digest_not_supported],  error: XmlParser::SUPPORTED_DIGESTS.join(', ') }
   end
 end
