@@ -2,6 +2,10 @@
 
 require 'byebug' if Gem.loaded_specs['byebug']
 require 'saml_parse'
+require 'simplecov'
+SimpleCov.start do
+  enable_coverage :branch
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
