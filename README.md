@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c422d0c52ab4665b23f5bdb66412cb5)](https://app.codacy.com/gh/michaelginalick/saml-parser?utm_source=github.com&utm_medium=referral&utm_content=michaelginalick/saml-parser&utm_campaign=Badge_Grade_Settings)
 [![Gem Version](https://badge.fury.io/rb/saml_parser.svg)](https://badge.fury.io/rb/saml_parser)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a0a9821025ec4c6a95987ee2f03f745f)](https://www.codacy.com/gh/michaelginalick/saml-parser/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelginalick/saml-parser&amp;utm_campaign=Badge_Grade)
 
