@@ -10,6 +10,7 @@ gem 'byebug', platforms: not_jruby
 gem 'irb', '~> 1.0'
 gem 'openssl'
 gem 'rspec_junit_formatter', '~> 0.4'
+gem 'simplecov-cobertura', require: false
 gem 'simplecov', '>= 0.17.1'
 # for server side request forgery (ssrf) attacks via URLs
 gem 'ssrf_filter', '~> 1.0'
