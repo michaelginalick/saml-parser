@@ -1,5 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/saml_parser.svg)](https://badge.fury.io/rb/saml_parser)
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a0a9821025ec4c6a95987ee2f03f745f)](https://www.codacy.com/gh/michaelginalick/saml-parser/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelginalick/saml-parser&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/a0a9821025ec4c6a95987ee2f03f745f)](https://www.codacy.com/gh/michaelginalick/saml-parser/dashboard?utm_source=github.com&utm_medium=referral&utm_content=michaelginalick/saml-parser&utm_campaign=Badge_Coverage)
 # SamlParser
 
 SAML parsing tool built with ruby. SAML configurations may vary based on your specific needs however,
