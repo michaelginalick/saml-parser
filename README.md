@@ -26,7 +26,7 @@ gem install saml_parser
 ## Usage
 
 ```ruby
-instance = SamlParse.parse("https://your-providers-metadata-link", {})
+instance = SamlParse.parse("https://your-providers-metadata-link", SamlBuilder.with_all_defaults)
 
 # Methods
 instance.ok?
@@ -38,8 +38,4 @@ instance.name_id_format
 instance.sso_target_url
 instance.xml_document
 ```
-Note you may pass an optional digest algorithm as a second parameter in the form of a hash
-with a key of `digest_algorithm`. The value you pass must be included in the following options
-`MD4 MD5 RIPEMD160 SHA1 SHA224 SHA256 SHA384 SHA512`. It will default to `SHA256` if nothing is passed.
-
-
+Note you must pass an instance of a `SamlBuilder` object. This class uses the builder pattern allowing you to set various attributes on the object. You may also use the `with_all_defaults` to use all default values.
