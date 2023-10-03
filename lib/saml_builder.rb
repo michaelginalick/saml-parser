@@ -5,9 +5,10 @@ require './lib/saml_parser/default_nodes'
 class SamlBuilder
   attr_accessor :entity_descriptor, :single_sign_on_service, :digest_algorithm,
     :name_id_format, :location, :entity_id, :certificate, :name_id_format_path,
-    :excluded_domains,
-    def initialize
-    end
+    :excluded_domains
+
+  def initialize
+  end
 
   class << self
     def with_all_defaults
