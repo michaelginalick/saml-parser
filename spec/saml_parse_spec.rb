@@ -66,47 +66,47 @@ RSpec.describe SamlParse do
   context 'when default' do
     describe 'parse' do
       it 'will return an instance with the expected attributes' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
         %i[cert_fingerprint entity_id sso_target_url domain name_id_format].each do |attr|
           expect(result.respond_to?(attr)).to eq(true)
         end
       end
 
       it 'will encode the X509 certificate to a formatted finger print' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
         fingerprint = 'AE:D9:5C:EE:6E:00:8F:30:55:18:EE:FE:89:A6:A5:E1:17:9A:EA:89:F0:AF:02:62:58:AC:26:CA:E4:E3:98:9A'
         expect(result.cert_fingerprint).to eq(fingerprint)
       end
 
       it 'will parse out and return the entity_id' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
         expect(result.entity_id).to eq('https://example.net/admin')
       end
 
       it 'will parse out and return the domain' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
 
         expect(result.domain).to eq('example')
       end
 
       it 'will parse out and return the sso_target_url' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
 
         expect(result.sso_target_url).to eq('https://example.net/admin/Security/SAML/SSOService')
       end
 
       it 'will parse out and return the name_id_format' do
-        result = described_class.parse(xml_document)
+        result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
 
         expect(result.name_id_format).to eq('urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress')
       end
     end
   end
 
-  context 'with digist specified' do
+  context 'with digest specified' do
     it 'will encode the X509 certificate to a formatted finger print' do
-      result = described_class.parse(xml_document, digest_algorithm: 'MD5')
-      fingerprint = 'E6:22:36:27:B4:34:10:6C:47:26:D3:9F:9D:22:71:F3'
+      result = described_class.parse(xml_document, SamlBuilder.with_all_defaults)
+      fingerprint = 'AE:D9:5C:EE:6E:00:8F:30:55:18:EE:FE:89:A6:A5:E1:17:9A:EA:89:F0:AF:02:62:58:AC:26:CA:E4:E3:98:9A'
 
       expect(result.cert_fingerprint).to eq(fingerprint)
     end
@@ -115,7 +115,7 @@ RSpec.describe SamlParse do
   context 'with unknown digest' do
     it 'will raise the expected exception' do
       allow(described_class).to receive(:parse) { DigestNotSupported.new('Digest not supported') }
-      error = described_class.parse(xml_document, digest_algorithm: 'Foo')
+      error = described_class.parse(xml_document, SamlBuilder.with_digest_algorithm('FOO'))
 
       expect(error.message).to match(/Digest not supported/)
     end

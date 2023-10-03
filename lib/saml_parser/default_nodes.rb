@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NodesOfInterest
+class DefaultNodes
   NODES = {
     entity_descriptor: '//EntityDescriptor',
     single_sign_on_service: '//SingleSignOnService',
